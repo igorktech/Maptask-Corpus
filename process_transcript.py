@@ -13,13 +13,14 @@ class Dialogue:
 
 
 class Utterance:
-    def __init__(self, speaker, text, da_label):
+    def __init__(self, speaker, text, da_label, conversation_id):
         self.speaker = speaker
         self.text = text
         self.da_label = da_label
+        self.conversation_id = conversation_id
 
     def __str__(self):
-        return str(self.speaker + " " + self.text + " " + self.da_label)
+        return str(self.speaker + " " + self.text + " " + self.da_label + " " + self.conversation_id)
 
 
 def process_transcript(transcript, moves_g, moves_f, excluded_chars, excluded_tags):
@@ -56,7 +57,7 @@ def process_transcript(transcript, moves_g, moves_f, excluded_chars, excluded_ta
 
         # Create an utterance if its DA not an excluded one
         if da not in excluded_tags and len(text) >= 1:
-            utterances.append(Utterance(speaker, text, da))
+            utterances.append(Utterance(speaker, text, da, transcript[1].split(' ')[1].replace(';', '')))
 
     # Get the conversation ID and number of utterances
     conversation_id = transcript[1].split(' ')[1].replace(';', '')
